@@ -35,7 +35,6 @@ public:
             root->left = nullptr;
 
             lAns.second->right = rAns.first;            
-            lAns.second->left = nullptr;
             return {root, rAns.second};
         }
             
