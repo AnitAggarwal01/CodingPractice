@@ -9,6 +9,8 @@ public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         int n = nums.size();
         vector<vector<int>> output;
+        if(n<=2)
+            return output;
         sort(nums.begin(), nums.end());
         
         for(int i = 0; i<n; i++) {
@@ -19,7 +21,7 @@ public:
                  */
                 while(i<n && nums[i] == nums[i-1])
                     i++;
-                if(i == n)
+                if(i >= n-2)
                     break;
             }
             int left = i+1;
