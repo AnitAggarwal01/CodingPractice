@@ -9,29 +9,37 @@ class Solution {
      * Will use this array to store the count. If a number n is present, we will mark the number at n-1 (0 based indexing) 
      * as negative (considering array has all positive integers). Then we check to find first element which is not negative.
      * That will be the index(i) corresponding to element(i+1), which was not present in the array to make the element negative 
-     * So, we return i+1 as the answer. Also, if all elements are negative. We return n+1 as the answer.  
+     * So, we return i+1 as the answer. Also, if all elements are negative. We return n+1 as the answer.
+     * If the array has non positive integers, we need to seperate them.  
      */
 public:
-    int seperatePositiveAndNegativeIntegers(vector<int>& nums) {
-        int i = 0, j = nums.size()-1;
-        while(i <= j) {
-            while(i <= j && nums[i] > 0) {
+    void seperatePositiveAndNegativeIntegers(vector<int>& arr) {
+        int i = 0, j = arr.size()-1;
+        while(i < j) {
+            if(arr[i] > 0 && arr[j] <=0) {
+                i++; j--; continue;
+            }
+            if(arr[i] > 0)
                 i++;
-            }
-            while(i <= j && nums[j] <= 0) {
+            else if(arr[j] <= 0)
                 j--;
+            else {
+                swap(arr[i], arr[j]);
             }
-            
-            if(i <= j) {
-                swap(nums[i], nums[j]);    
-                i++;j--;
-            }
+        }
+    }
+    int getCountPositive(const vector<int>& arr) {
+        int i = 0;
+        while(i < arr.size()) {
+            if(arr[i] <= 0)
+                break;
+            i++;
         }
         return i;
     }
     int firstMissingPositive(vector<int>& nums) {
-        int countPositive = seperatePositiveAndNegativeIntegers(nums);
-
+        seperatePositiveAndNegativeIntegers(nums);
+        int countPositive = getCountPositive(nums);
         for(int i = 0; i<countPositive; i++) {
             int index = abs(nums[i]);
             if(index <= countPositive) {
