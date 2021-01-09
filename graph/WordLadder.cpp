@@ -23,12 +23,12 @@ public:
      */
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         int L = beginWord.size();
-        unordered_map<string, vector<string>> map;
+        unordered_map<string, vector<int>> map;
         for(int i = 0; i < wordList.size(); i++) {
             string word = wordList[i];
-            for(int i = 0; i<L; i++) {
-                string transformation = word.substr(0, i) + "*" + word.substr(i+1, L);
-                map[transformation].push_back(word);
+            for(int j = 0; j<L; j++) {
+                string transformation = word.substr(0, j) + "*" + word.substr(j+1, L);
+                map[transformation].push_back(i);
             }          
         }
         queue<pair<string, int>> Q;
@@ -41,9 +41,9 @@ public:
             int level = p.second;
             for(int i = 0; i< L; ++i) {
                 string transformation = word.substr(0, i) + "*" + word.substr(i+1, L);
-                vector<string> adjacentList = map[transformation];
+                vector<int> adjacentList = map[transformation];
                 for(int j = 0; j<adjacentList.size(); ++j) {
-                    string nextWord = adjacentList[j];
+                    string nextWord = wordList[adjacentList[j]];
                     if(!visited[nextWord]) {
                         if(nextWord == endWord) {
                             return level + 1;
